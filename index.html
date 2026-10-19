@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profissional Nota 10</title>
+
+<style>
+:root {
+  --azul: #102747;
+  --azul2: #1d4774;
+  --dourado: #ffd166;
+  --branco: #ffffff;
+  --fundo: #edf3fa;
+  --verde: #16865b;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--fundo);
+  color: #17283d;
+}
+header {
+  background: linear-gradient(135deg, var(--azul), var(--azul2));
+  color: white;
+  padding: 24px 16px;
+  text-align: center;
+}
+header h1 { margin: 5px 0; font-size: clamp(27px, 5vw, 42px); }
+header p { margin: 8px 0; }
+.pontos {
+  display: inline-block;
+  background: var(--dourado);
+  color: #18263a;
+  padding: 10px 16px;
+  border-radius: 25px;
+  font-weight: bold;
+}
+nav {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  box-shadow: 0 3px 12px #0001;
+}
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 15px;
+}
+nav button { background: #e5edf7; color: var(--azul); }
+nav button:hover, nav button:focus { background: var(--dourado); }
+main { max-width: 1050px; margin: auto; padding: 20px; }
+.tela { display: none; }
+.tela.ativa { display: block; }
+.painel {
+  background: white;
+  padding: clamp(18px, 4vw, 32px);
+  border-radius: 18px;
+  margin: 12px 0 22px;
+  box-shadow: 0 7px 25px #17283d12;
+}
+h2 { color: var(--azul); margin-top: 0; }
+h3 { color: var(--azul2); }
+p, li { line-height: 1.7; }
+.primario { background: var(--azul2); color: white; }
+.destaque { background: var(--dourado); color: #17283d; }
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+.avatar {
+  background: #f1f5fa;
+  border: 3px solid transparent;
+  padding: 20px 8px;
+  border-radius: 15px;
+  color: #17283d;
+}
+.avatar .emoji { display: block; font-size: 48px; margin-bottom: 8px; }
+.avatar.escolhido { border-color: #e8ae25; background: #fff8df; }
+.cartao {
+  background: #f2f6fb;
+  padding: 18px;
+  border-radius: 13px;
+  margin: 12px 0;
+  border-left: 5px solid var(--azul2);
+}
+.cena {
+  background: linear-gradient(#d8e9f8, #f7f9fc);
+  min-height: 220px;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+}
+.cena .personagens { font-size: 55px; }
+.fala {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 15px auto;
+  max-width: 650px;
+  line-height: 1.6;
+}
+.opcao {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #edf3fa;
+  color: #17283d;
+  margin: 9px 0;
+  line-height: 1.5;
+}
+.opcao:hover { background: #ffefbb; }
+.feedback { font-weight: bold; margin: 12px 0; }
+input[type="text"] {
+  width: 100%;
+  max-width: 450px;
+  padding: 13px;
+  border: 1px solid #bdcad9;
+  border-radius: 9px;
+  font-size: 16px;
+  margin: 8px 0 15px;
+}
+.barra {
+  height: 12px;
+  background: #e4eaf2;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 14px 0;
+}
+#progresso {
+  width: 0%;
+  height: 100%;
+  background: var(--verde);
+  transition: width .3s;
+}
+#mensagem { min-height: 28px; font-weight: bold; }
+footer { text-align: center; padding: 25px; color: #52657b; }
+.check { display: block; margin: 12px 0; line-height: 1.6; }
+.check input { margin-right: 9px; transform: scale(1.15); }
+@media(max-width:600px) {
+  main { padding: 12px; }
+  nav { position: static; }
+  nav button { flex: 1 1 40%; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div style="font-size:42px">💼 ⭐</div>
+  <h1>Profissional Nota 10</h1>
+  <p>Aprenda, pratique e descubra como ser um excelente profissional!</p>
+  <div class="pontos">⭐ Pontuação: <span id="pontos">0</span></div>
+</header>
+
+<nav aria-label="Menu principal">
+  <button onclick="abrir('inicio')">🏠 Início</button>
+  <button onclick="abrir('manual')">📘 Manual</button>
+  <button onclick="abrir('videos')">🎬 Vídeos</button>
+  <button onclick="abrir('quiz')">🧠 Quiz</button>
+  <button onclick="abrir('jogo')">🎮 Jogo</button>
+  <button onclick="abrir('final')">🏆 Certificado</button>
+</nav>
+
+<main>
+<section id="inicio" class="tela ativa">
+  <div class="painel">
+    <h2>Bem-vindo ao escritório!</h2>
+    <p>Escolha seu avatar, aprenda boas práticas profissionais e enfrente desafios do dia a dia no trabalho.</p>
+
+    <h3>1. Como você quer ser chamado?</h3>
+    <input id="nome" type="text" maxlength="35" placeholder="Digite seu nome">
+
+    <h3>2. Escolha seu avatar</h3>
+    <div class="grade" id="avatares">
+      <button class="avatar escolhido" onclick="escolherAvatar(this,'👩‍💼')"><span class="emoji">👩‍💼</span>Profissional</button>
+      <button class="avatar" onclick="escolherAvatar(this,'👨‍💼')"><span class="emoji">👨‍💼</span>Profissional</button>
+      <button class="avatar" onclick="escolherAvatar(this,'🧑‍💻')"><span class="emoji">🧑‍💻</span>Tecnologia</button>
+      <button class="avatar" onclick="escolherAvatar(this,'👩‍🔧')"><span class="emoji">👩‍🔧</span>Técnica</button>
+    </div>
+    <p id="boasVindas">Seu avatar: 👩‍💼</p>
+    <button class="primario" onclick="comecar()">Começar a experiência 🚀</button>
+  </div>
+</section>
+
+<section id="manual" class="tela">
+  <div class="painel">
+    <h2>📘 Manual do Profissional Nota 10</h2>
+    <p>Conheça atitudes que fazem a diferença em qualquer ambiente de trabalho.</p>
+
+    <div class="cartao">
+      <h3>⏰ Pontualidade</h3>
+      <p>Chegue no horário combinado, organize sua rotina e avise com antecedência se surgir algum imprevisto.</p>
+    </div>
+    <div class="cartao">
+      <h3>🤝 Respeito e trabalho em equipe</h3>
+      <p>Escute opiniões, trate todos com educação, respeite as diferenças e colabore com os colegas.</p>
+    </div>
+    <div class="cartao">
+      <h3>💬 Comunicação</h3>
+      <p>Fale com clareza, escute com atenção e confirme se entendeu corretamente as orientações.</p>
+    </div>
+    <div class="cartao">
+      <h3>🔒 Ética e responsabilidade</h3>
+      <p>Respeite a privacidade, cuide das informações da empresa e cumpra suas responsabilidades.</p>
+    </div>
+    <div class="cartao">
+      <h3>🗂️ Organização</h3>
+      <p>Mantenha documentos organizados, cuide dos materiais e priorize as tarefas importantes.</p>
+    </div>
+    <div class="cartao">
+      <h3>🌎 Respeito às diferenças</h3>
+      <p>Trate todas as pessoas com dignidade. Não discrimine colegas ou clientes por suas características.</p>
+    </div>
+    <div class="cartao">
+      <h3>🌐 Intérprete de idiomas</h3>
+      <p>Precisa compreender uma expressão em outro idioma? Use um tradutor confiável e confirme o contexto antes de responder.</p>
+      <button class="primario" onclick="window.open('https://translate.google.com/','_blank','noopener')">Abrir tradutor</button>
+    </div>
+    <button class="destaque" onclick="marcarManual()">Concluí a leitura (+10 pontos)</button>
+    <p id="manualMsg" class="feedback"></p>
+  </div>
+</section>
+
+<section id="videos" class="tela">
+  <div class="painel">
+    <h2>🎬 Vídeos interativos</h2>
+    <p>Os vídeos abaixo são pequenas cenas simuladas com personagens e diálogos. Escolha uma situação e inicie a animação.</p>
+
+    <div class="cartao">
+      <h3>Vídeo 1 — Atendimento respeitoso</h3>
+      <div class="cena">
+        <div class="personagens" id="personagens1">🧑‍💼 🤝 🧑</div>
+        <div class="fala" id="fala1">Clique em reproduzir para iniciar a cena.</div>
+      </div>
+      <button class="primario" onclick="reproduzir(1)">▶️ Reproduzir</button>
+      <button onclick="pararVideo(1)">↻ Reiniciar</button>
+    </div>
+
+    <div class="cartao">
+      <h3>Vídeo 2 — Trabalho em equipe</h3>
+      <div class="cena">
+        <div class="personagens" id="personagens2">👩‍💼 👨‍💻</div>
+        <div class="fala" id="fala2">Clique em reproduzir para iniciar a cena.</div>
+      </div>
+      <button class="primario" onclick="reproduzir(2)">▶️ Reproduzir</button>
+      <button onclick="pararVideo(2)">↻ Reiniciar</button>
+    </div>
+
+    <div class="cartao">
+      <h3>Vídeo 3 — Pontualidade e organização</h3>
+      <div class="cena">
+        <div class="personagens" id="personagens3">⏰ 📋 💼</div>
+        <div class="fala" id="fala3">Clique em reproduzir para iniciar a cena.</div>
+      </div>
+      <button class="primario" onclick="reproduzir(3)">▶️ Reproduzir</button>
+      <button onclick="pararVideo(3)">↻ Reiniciar</button>
+    </div>
+    <p><small>Observação: são animações com diálogos, não arquivos de vídeo gravados.</small></p>
+  </div>
+</section>
+
+<section id="quiz" class="tela">
+  <div class="painel">
+    <h2>🧠 Quiz profissional</h2>
+    <p>Responda às perguntas e teste o que você aprendeu.</p>
+    <div class="barra"><div id="progresso"></div></div>
+    <p id="contador"></p>
+    <h3 id="pergunta"></h3>
+    <div id="respostas"></div>
+    <p id="mensagem" aria-live="polite"></p>
+    <button id="proxima" class="primario" style="display:none" onclick="proximaPergunta()">Próxima pergunta ➜</button>
+    <button id="reiniciarQuiz" onclick="iniciarQuiz()">Refazer quiz</button>
+  </div>
+</section>
+
+<section id="jogo" class="tela">
+  <div class="painel">
+    <h2>🎮 Desafio: Um dia no escritório</h2>
+    <p>Leia a situação e escolha a melhor atitude. Cada decisão correta vale 10 pontos.</p>
+    <h3 id="jogoPergunta"></h3>
+    <div id="jogoRespostas"></div>
+    <p id="jogoMensagem" aria-live="polite"></p>
+    <button id="jogoProximo" class="primario" style="display:none" onclick="proximaSituacao()">Próximo desafio ➜</button>
+    <button onclick="iniciarJogo()">Reiniciar jogo</button>
+  </div>
+</section>
+
+<section id="final" class="tela">
+  <div class="painel" style="text-align:center">
+    <h2>🏆 Certificado de participação</h2>
+    <div style="font-size:65px">🎓</div>
+    <h3>Profissional Nota 10</h3>
+    <p>Certificamos que</p>
+    <h2 id="nomeCertificado">Participante</h2>
+    <p>concluiu as atividades interativas sobre ética, comunicação, organização, respeito e trabalho em equipe.</p>
+    <h3>Pontuação: <span id="pontosFinal">0</span> pontos</h3>
+    <button class="primario" onclick="atualizarCertificado()">Atualizar certificado</button>
+    <button class="destaque" onclick="window.print()">🖨️ Imprimir / Salvar em PDF</button>
+  </div>
+</section>
+</main>
+
+<footer>Profissional Nota 10 · Aprender hoje para crescer profissionalmente amanhã.</footer>
+
+<script>
+let pontuacao = 0;
+let avatar = "👩‍💼";
+let manualConcluido = false;
+let quizIndice = 0;
+let quizRespondido = false;
+let jogoIndice = 0;
+let jogoRespondido = false;
+let videosTimers = {};
+
+function atualizarPontos() {
+  document.getElementById("pontos").textContent = pontuacao;
+  document.getElementById("pontosFinal").textContent = pontuacao;
+}
+
+function ganharPontos(valor) {
+  pontuacao += valor;
+  atualizarPontos();
+}
+
+function abrir(id) {
+  document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
+  document.getElementById(id).classList.add("ativa");
+  if (id === "final") atualizarCertificado();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function escolherAvatar(botao, emoji) {
+  avatar = emoji;
+  document.querySelectorAll(".avatar").forEach(a => a.classList.remove("escolhido"));
+  botao.classList.add("escolhido");
+  document.getElementById("boasVindas").textContent = "Seu avatar: " + avatar;
+}
+
+function comecar() {
+  const nome = document.getElementById("nome").value.trim();
+  document.getElementById("boasVindas").textContent =
+    "Olá, " + (nome || "profissional") + "! Seu avatar: " + avatar;
+  abrir("manual");
+}
+
+function marcarManual() {
+  if (!manualConcluido) {
+    ganharPontos(10);
+    manualConcluido = true;
+    document.getElementById("manualMsg").textContent = "✅ Manual concluído! Você ganhou 10 pontos.";
+  } else {
+    document.getElementById("manualMsg").textContent = "Você já recebeu os pontos desta atividade.";
+  }
+}
+
+const cenas = {
+  1: [
+    ["Cliente: Bom dia! Preciso de ajuda.", "🧑‍💼 🤝 🧑"],
+    ["Profissional: Bom dia! Claro, como posso ajudar?", "😊 🤝 🙂"],
+    ["Narrador: Escutar e responder com educação melhora o atendimento.", "⭐ 🤝 ⭐"]
+  ],
+  2: [
+    ["Colega: Você pode me ajudar com esta tarefa?", "👩‍💼 💬 👨‍💻"],
+    ["Profissional: Claro! Vamos organizar as etapas juntos.", "🤝 📋 🤝"],
+    ["Narrador: Cooperar ajuda a equipe a alcançar seus objetivos.", "⭐ 👥 ⭐"]
+  ],
+  3: [
+    ["Narrador: Um bom profissional planeja suas tarefas.", "⏰ 📋 💼"],
+    ["Profissional: Vou organizar minhas prioridades e conferir os prazos.", "🧑‍💼 🗂️ ✅"],
+    ["Narrador: Planejamento e pontualidade demonstram responsabilidade.", "⭐ ⏰ ⭐"]
+  ]
+};
+
+function reproduzir(numero) {
+  pararVideo(numero);
+  let passo = 0;
+  const fala = document.getElementById("fala" + numero);
+  const personagens = document.getElementById("personagens" + numero);
+
+  function avancar() {
+    if (passo < cenas[numero].length) {
+      fala.textContent = cenas[numero][passo][0];
+      personagens.textContent = cenas[numero][passo][1];
+      passo++;
+      videosTimers[numero] = setTimeout(avancar, 2500);
+    } else {
+      fala.textContent = "✅ Cena concluída! Reflita sobre a atitude apresentada.";
+      ganharPontos(5);
+    }
+  }
+  avancar();
+}
+
+function pararVideo(numero) {
+  clearTimeout(videosTimers[numero]);
+  document.getElementById("fala" + numero).textContent =
+    "Clique em reproduzir para iniciar a cena.";
+  document.getElementById("personagens" + numero).textContent =
+    numero === 1 ? "🧑‍💼 🤝 🧑" : numero === 2 ? "👩‍💼 👨‍💻" : "⏰ 📋 💼";
+}
+
+const perguntas = [
+  {
+    p: "Você percebe que vai se atrasar para o trabalho. O que deve fazer?",
+    r: ["Não avisar ninguém.", "Avisar o responsável assim que possível.", "Inventar uma desculpa depois."],
+    c: 1,
+    e: "Avisar com antecedência demonstra responsabilidade."
+  },
+  {
+    p: "Um cliente está irritado. Qual é a melhor atitude?",
+    r: ["Discutir com ele.", "Ignorar o cliente.", "Escutar com calma e buscar uma solução."],
+    c: 2,
+    e: "Escuta e respeito ajudam a resolver conflitos."
+  },
+  {
+    p: "Um colega tem dificuldade com uma tarefa. O que fazer?",
+    r: ["Oferecer ajuda, se possível.", "Fazer piadas sobre ele.", "Deixar documentos escondidos."],
+    c: 0,
+    e: "Cooperação fortalece a equipe."
+  },
+  {
+    p: "Você recebeu informações confidenciais de um cliente.",
+    r: ["Publicar na internet.", "Compartilhar com todos os colegas.", "Proteger os dados e seguir as regras da empresa."],
+    c: 2,
+    e: "A privacidade e a ética devem ser respeitadas."
+  },
+  {
+    p: "Qual atitude demonstra organização?",
+    r: ["Deixar tudo para a última hora.", "Planejar as tarefas e cuidar dos documentos.", "Ignorar os prazos."],
+    c: 1,
+    e: "Organização ajuda a cumprir os prazos."
+  }
+];
+
+function iniciarQuiz() {
+  quizIndice = 0;
+  mostrarPergunta();
+}
+
+function mostrarPergunta() {
+  quizRespondido = false;
+  const q = perguntas[quizIndice];
+  document.getElementById("contador").textContent =
+    "Pergunta " + (quizIndice + 1) + " de " + perguntas.length;
+  document.getElementById("progresso").style.width =
+    (quizIndice / perguntas.length * 100) + "%";
+  document.getElementById("pergunta").textContent = q.p;
+  document.getElementById("mensagem").textContent = "";
+  document.getElementById("proxima").style.display = "none";
+
+  const div = document.getElementById("respostas");
+  div.innerHTML = "";
+  q.r.forEach((texto, i) => {
+    const b = document.createElement("button");
+    b.className = "opcao";
+    b.textContent = texto;
+    b.onclick = () => responderQuiz(i);
+    div.appendChild(b);
+  });
+}
+
+function responderQuiz(escolha) {
+  if (quizRespondido) return;
+  quizRespondido = true;
+  const q = perguntas[quizIndice];
+  const botoes = document.querySelectorAll("#respostas button");
+  botoes.forEach(b => b.disabled = true);
+
+  if (escolha === q.c) {
+    document.getElementById("mensagem").textContent = "✅ Correto! " + q.e;
+    ganharPontos(10);
+  } else {
+    document.getElementById("mensagem").textContent = "❌ Não foi dessa vez. " + q.e;
+  }
+  document.getElementById("proxima").style.display = "inline-block";
+  document.getElementById("proxima").textContent =
+    quizIndice === perguntas.length - 1 ? "Ver resultado" : "Próxima pergunta ➜";
+}
+
+function proximaPergunta() {
+  if (quizIndice < perguntas.length - 1) {
+    quizIndice++;
+    mostrarPergunta();
+  } else {
+    document.getElementById("pergunta").textContent = "Quiz concluído! 🎉";
+    document.getElementById("respostas").innerHTML =
+      "<div class='cartao'>Sua pontuação total é de " + pontuacao + " pontos. Você pode refazer o quiz para praticar novamente.</div>";
+    document.getElementById("mensagem").textContent = "";
+    document.getElementById("proxima").style.display = "none";
+    document.getElementById("progresso").style.width = "100%";
+    document.getElementById("contador").textContent = "Atividade concluída";
+  }
+}
+
+const situacoes = [
+  {
+    p: "Você terminou suas tarefas e percebe que um colega está sobrecarregado.",
+    r: ["Oferecer ajuda, se possível.", "Fazer de conta que não viu.", "Criticar o colega."],
+    c: 0,
+    e: "A colaboração é uma atitude profissional."
+  },
+  {
+    p: "Você cometeu um erro em um documento importante.",
+    r: ["Esconder o erro.", "Avisar o responsável e ajudar a corrigir.", "Culpar outra pessoa."],
+    c: 1,
+    e: "Transparência e responsabilidade ajudam a corrigir problemas."
+  },
+  {
+    p: "Você recebe uma orientação que não entendeu.",
+    r: ["Fazer de qualquer jeito.", "Ignorar a tarefa.", "Pedir esclarecimentos com educação."],
+    c: 2,
+    e: "Perguntar evita erros e demonstra interesse em aprender."
+  }
+];
+
+function iniciarJogo() {
+  jogoIndice = 0;
+  mostrarSituacao();
+}
+
+function mostrarSituacao() {
+  jogoRespondido = false;
+  const s = situacoes[jogoIndice];
+  document.getElementById("jogoPergunta").textContent =
+    "Desafio " + (jogoIndice + 1) + ": " + s.p;
+  document.getElementById("jogoMensagem").textContent = "";
+  document.getElementById("jogoProximo").style.display = "none";
+
+  const div = document.getElementById("jogoRespostas");
+  div.innerHTML = "";
+  s.r.forEach((texto, i) => {
+    const b = document.createElement("button");
+    b.className = "opcao";
+    b.textContent = texto;
+    b.onclick = () => responderSituacao(i);
+    div.appendChild(b);
+  });
+}
+
+function responderSituacao(escolha) {
+  if (jogoRespondido) return;
+  jogoRespondido = true;
+  const s = situacoes[jogoIndice];
+  document.querySelectorAll("#jogoRespostas button").forEach(b => b.disabled = true);
+
+  if (escolha === s.c) {
+    document.getElementById("jogoMensagem").textContent = "✅ Boa decisão! " + s.e;
+    ganharPontos(10);
+  } else {
+    document.getElementById("jogoMensagem").textContent = "💡 Pense em uma atitude respeitosa e responsável. " + s.e;
+  }
+  document.getElementById("jogoProximo").style.display = "inline-block";
+  document.getElementById("jogoProximo").textContent =
+    jogoIndice === situacoes.length - 1 ? "Finalizar jogo" : "Próximo desafio ➜";
+}
+
+function proximaSituacao() {
+  if (jogoIndice < situacoes.length - 1) {
+    jogoIndice++;
+    mostrarSituacao();
+  } else {
+    document.getElementById("jogoPergunta").textContent = "Parabéns! Você concluiu os desafios do escritório. 🎉";
+    document.getElementById("jogoRespostas").innerHTML = "";
+    document.getElementById("jogoMensagem").textContent = "Continue praticando boas atitudes profissionais!";
+    document.getElementById("jogoProximo").style.display = "none";
+  }
+}
+
+function atualizarCertificado() {
+  const nome = document.getElementById("nome").value.trim() || "Participante";
+  document.getElementById("nomeCertificado").textContent = nome + " " + avatar;
+  document.getElementById("pontosFinal").textContent = pontuacao;
+}
+
+iniciarQuiz();
+iniciarJogo();
+atualizarPontos();
+</script>
+</body>
+</html>
